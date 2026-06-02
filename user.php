@@ -10,8 +10,9 @@ if(isset($_POST['add_order'])){
   $p->execute([$pid]); $product=$p->fetch();
   if($product){
     $total=($product['price']*$qty)+$ship;
-    $stmt=$pdo->prepare("INSERT INTO orders (user_id,product_id,buyer_name,phone,address,qty,product_price,shipping,total,note) VALUES (?,?,?,?,?,?,?,?,?,?)");
-    $stmt->execute([$user['id'],$pid,$_POST['buyer_name'],$_POST['phone'],$_POST['address'],$qty,$product['price'],$ship,$total,$_POST['note']]);
+    $profit=(($product['price']-$product['cost_price'])*$qty);
+    $stmt=$pdo->prepare("INSERT INTO orders (user_id,product_id,buyer_name,phone,address,qty,product_price,product_cost,profit,shipping,total,note) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+    $stmt->execute([$user['id'],$pid,$_POST['buyer_name'],$_POST['phone'],$_POST['address'],$qty,$product['price'],$product['cost_price'],$profit,$ship,$total,$_POST['note']]);
   }
   header("Location: user.php"); exit;
 }
@@ -58,11 +59,8 @@ $totalMoney=array_sum(array_column($orders,'total')); $totalItems=array_sum(arra
 <td><?= htmlspecialchars($o['product_name']) ?> x<?= $o['qty'] ?><br><small>Ongkir <?= rupiah($o['shipping']) ?></small></td>
 <td><?= $o['note'] ? htmlspecialchars($o['note']) : '-' ?></td>
 <td><a target="_blank" href="<?= wa_link($o['phone']) ?>"><?= htmlspecialchars($o['phone']) ?></a></td>
-<td><form method="post"><input type="hidden" name="order_id" value="<?= $o['id'] ?>"><select name="payment">
-<?php foreach(['Belum Dipilih','Cash','QRIS','Transfer'] as $v): ?><option <?= $o['payment']===$v?'selected':'' ?>><?= $v ?></option><?php endforeach; ?>
-</select></td><td><select name="delivery">
-<?php foreach(['Belum Dikirim','Sedang Dikirim','Sudah Dikirim'] as $v): ?><option <?= $o['delivery']===$v?'selected':'' ?>><?= $v ?></option><?php endforeach; ?>
-</select></td>
+<td><form method="post"><input type="hidden" name="order_id" value="<?= $o['id'] ?>"><select name="payment"><?php foreach(['Belum Dipilih','Cash','QRIS','Transfer'] as $v): ?><option <?= $o['payment']===$v?'selected':'' ?>><?= $v ?></option><?php endforeach; ?></select></td>
+<td><select name="delivery"><?php foreach(['Belum Dikirim','Sedang Dikirim','Sudah Dikirim'] as $v): ?><option <?= $o['delivery']===$v?'selected':'' ?>><?= $v ?></option><?php endforeach; ?></select></td>
 <td><b><?= rupiah($o['total']) ?></b><br><?= $o['acc_status']?'<span class="badge ok">ACC</span>':'<span class="badge no">Belum ACC</span>' ?></td>
 <td><button class="small" name="update_status">Update</button></form><a class="btn red small" onclick="return confirm('Hapus pesanan?')" href="?delete=<?= $o['id'] ?>">Hapus</a></td>
 </tr><?php endforeach; ?></table></div></div></div></div>

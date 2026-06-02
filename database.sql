@@ -1,6 +1,3 @@
-CREATE DATABASE IF NOT EXISTS pembukuan_app CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE pembukuan_app;
-
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(50) NOT NULL UNIQUE,
@@ -14,6 +11,7 @@ CREATE TABLE products (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
   price INT NOT NULL DEFAULT 0,
+  cost_price INT NOT NULL DEFAULT 0,
   status ENUM('active','deleted') NOT NULL DEFAULT 'active',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -27,6 +25,8 @@ CREATE TABLE orders (
   address TEXT NOT NULL,
   qty INT NOT NULL DEFAULT 1,
   product_price INT NOT NULL DEFAULT 0,
+  product_cost INT NOT NULL DEFAULT 0,
+  profit INT NOT NULL DEFAULT 0,
   shipping INT NOT NULL DEFAULT 0,
   total INT NOT NULL DEFAULT 0,
   note TEXT NULL,
@@ -44,7 +44,7 @@ INSERT INTO users (username, full_name, role) VALUES
 ('andi','Andi','user'),
 ('sinta','Sinta','user');
 
-INSERT INTO products (name, price) VALUES
-('Donat',5000),
-('Roti',7000),
-('Es Teh',3000);
+INSERT INTO products (name, price, cost_price) VALUES
+('Donat',5000,3000),
+('Roti',7000,4500),
+('Es Teh',3000,1500);
