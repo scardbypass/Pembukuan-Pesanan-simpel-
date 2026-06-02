@@ -68,6 +68,12 @@ User dapat:
 
 https://akuimutya.my.id
 
+<img width="1920" height="1080" alt="Screenshot 2026-06-02 210915" src="https://github.com/user-attachments/assets/0fb47f75-351f-4779-91b6-1620a97d7c49" />
+<img width="1920" height="1080" alt="Screenshot 2026-06-02 210820" src="https://github.com/user-attachments/assets/26725707-d5a1-4028-9fda-306652add2a2" />
+<img width="1920" height="1080" alt="Screenshot 2026-06-02 210800" src="https://github.com/user-attachments/assets/6ce6227f-1da8-4e96-906e-ff82b42e6f80" />
+
+
+
 ## 📄 License
 
 © 2026 SCARD-PROJECT. All Rights Reserved.
